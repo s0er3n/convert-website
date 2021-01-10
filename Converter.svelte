@@ -15,6 +15,24 @@
     e.preventDefault();
     input = files[0].name.split(".").pop();
     console.log(files, input, output);
+    var myHeaders = new Headers();
+    myHeaders.append("accept", "application/json");
+    myHeaders.append("Content-Type", "multipart/form-data");
+
+    var formdata = new FormData();
+    formdata.append("file", files[0], files[0].name);
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: formdata,
+      redirect: "follow"
+    };
+
+    fetch("http://localhost:8000/convert/mat/csv", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log("error", error));
   }
   function handleChoice(e, filetype) {
     e.preventDefault();
