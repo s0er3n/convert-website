@@ -19,7 +19,12 @@
     isOpen = event.detail.isOpen;
   }
 </script>
+<style>
+  .font {
+    color: white;
+  }
+</style>
 
-<Navbar color="ligth" light expand="md">
-  <NavbarBrand href="/">Super Duper Converter</NavbarBrand>
+<Navbar color="ligth test" light expand="md">
+  <NavbarBrand href="/"><div class="font">Super Duper Converter<div></NavbarBrand>
 </Navbar>
