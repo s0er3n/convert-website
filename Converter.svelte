@@ -1,4 +1,5 @@
 <script>
+  import { Circle } from "svelte-loading-spinners";
   import {
     Button,
     Container,
@@ -6,34 +7,37 @@
     Input,
     ListGroupItem
   } from "sveltestrap";
+  let url;
+  $: url;
   let files = [];
   let output;
   let filetypes = ["csv", "exel", "mat"];
   let convert = false;
   let input;
+  let loading;
   function handleSubmit(e) {
+    loading = true;
     e.preventDefault();
     input = files[0].name.split(".").pop();
     console.log(files, input, output);
-    var myHeaders = new Headers();
-    myHeaders.append("accept", "application/json");
-    myHeaders.append("Content-Type", "multipart/form-data");
-
     var formdata = new FormData();
     formdata.append("file", files[0], files[0].name);
 
     var requestOptions = {
       method: "POST",
-      headers: myHeaders,
       body: formdata,
       redirect: "follow"
     };
 
-    fetch("http://localhost:8000/convert/mat/csv", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
+    fetch("https://a51d44cffb61.ngrok.io/convert/mat/csv", requestOptions)
+      .then(response => response.blob())
+      .then(result => {
+        url = window.URL.createObjectURL(result);
+        loading = false;
+      })
       .catch(error => console.log("error", error));
   }
+
   function handleChoice(e, filetype) {
     e.preventDefault();
     output = filetype;
@@ -70,6 +74,12 @@
 {/if}
 {#if convert}
 <Button color="primary"type="submit">Convert</Button>
+{/if}
+{#if loading}
+<Circle size="60" color="#FFFFFF" unit="px"></Circle>
+{/if}
+{#if url}
+<a href={url}><Button on:click={e => e.preventDefault()} color="success">Download</Button></a>
 {/if}
 </form>
 </div>

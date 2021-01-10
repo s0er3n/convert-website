@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "svelte": "3.31.2",
+    "svelte-loading-spinners": "0.1.3",
     "sveltestrap": "3.11.0"
   },
   "scripts": {
