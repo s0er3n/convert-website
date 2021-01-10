@@ -35,7 +35,11 @@
         url = window.URL.createObjectURL(result);
         loading = false;
       })
-      .catch(error => console.log("error", error));
+      .catch(error => {
+        console.log("error", error);
+        loading = false;
+        alert(error);
+      });
   }
 
   function handleChoice(e, filetype) {
