@@ -14,7 +14,7 @@
   let filetypes = ["csv", "exel", "mat"];
   let convert = false;
   let input;
-  let loading;
+  let loading = false;
   function handleSubmit(e) {
     loading = true;
     e.preventDefault();
@@ -29,7 +29,7 @@
       redirect: "follow"
     };
 
-    fetch("https://a51d44cffb61.ngrok.io/convert/mat/csv", requestOptions)
+    fetch("https://4795294886db.ngrok.io/convert/mat/csv", requestOptions)
       .then(response => response.blob())
       .then(result => {
         url = window.URL.createObjectURL(result);
@@ -53,6 +53,7 @@
   @import "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css";
   .Zentrum {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center; /* for single line flex container */
     margin: 50px;
@@ -76,14 +77,20 @@
 <Button class="m-2" on:click={e =>handleChoice(e, filetype)}>{filetype}</Button>
 {/each}
 {/if}
-{#if convert}
-<Button color="primary"type="submit">Convert</Button>
-{/if}
+<Container>
 {#if loading}
 <Circle size="60" color="#FFFFFF" unit="px"></Circle>
 {/if}
-{#if url}
-<a href={url}><Button on:click={e => e.preventDefault()} color="success">Download</Button></a>
+</Container>
+<Container>
+{#if convert}
+<Button color="primary"type="submit" disabled={loading}>Convert</Button>
 {/if}
+</Container>
 </form>
+<Container>
+{#if url}
+<a href={url}><Button on:click={e => e.preventDefault()} color="success" >Download</Button></a>
+{/if}
+</Container>
 </div>
